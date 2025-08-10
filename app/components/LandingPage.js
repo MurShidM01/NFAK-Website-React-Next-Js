@@ -65,39 +65,39 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 via-pink-50 to-purple-50 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-gradient-to-br from-red-50 via-pink-50 to-purple-50 flex items-center justify-center p-3 sm:p-6">
       <div className={`max-w-4xl mx-auto text-center transition-all duration-1000 ${
         isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
       }`}>
         
         {/* Main Icon */}
-        <div className="text-8xl mb-8 heartbeat">
+        <div className="text-6xl sm:text-7xl lg:text-8xl mb-6 sm:mb-8 heartbeat">
           🕊️
         </div>
 
         {/* Main Title */}
-        <h1 className="text-5xl font-light text-gray-800 mb-6 bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-800 mb-4 sm:mb-6 bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent px-2">
           Ustad Nusrat Fateh Ali Khan
         </h1>
         
         {/* Subtitle */}
-        <p className="text-2xl text-gray-600 mb-8">
+        <p className="text-lg sm:text-xl lg:text-2xl text-gray-600 mb-6 sm:mb-8 px-2">
           Shahenshah-e-Qawwali • The Voice of the Soul
         </p>
 
         {/* Countdown Section */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border-2 border-white/60 mb-8">
-          <h2 className="text-3xl font-light text-gray-800 mb-6 bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent">
+        <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-4 sm:p-6 lg:p-8 shadow-2xl border-2 border-white/60 mb-6 sm:mb-8">
+          <h2 className="text-2xl sm:text-3xl font-light text-gray-800 mb-4 sm:mb-6 bg-gradient-to-r from-red-600 to-purple-600 bg-clip-text text-transparent">
             🎯 Special Countdown
           </h2>
           
-          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base lg:text-lg text-gray-600 mb-6 sm:mb-8 max-w-2xl mx-auto px-2">
             The full tribute website will be unlocked on <span className="font-semibold text-red-600">August 16, 2025 at 00:00 AM</span>. 
             Until then, enjoy this countdown to the grand reveal.
           </p>
 
           {/* Countdown Grid */}
-          <div className="grid grid-cols-4 gap-6 mb-8">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-6 mb-8">
             {timeUnits.map((unit, index) => (
               <div 
                 key={unit.label}
@@ -110,11 +110,11 @@ export default function LandingPage() {
                 <div className={`absolute inset-0 bg-gradient-to-br ${unit.color} rounded-2xl opacity-30 blur-sm group-hover:opacity-50 transition-opacity duration-300`}></div>
                 
                 {/* Main Card */}
-                <div className="relative bg-white/90 backdrop-blur-sm rounded-2xl p-6 border-2 border-white/60 shadow-xl hover:shadow-2xl transition-all duration-300">
-                  <div className={`text-5xl font-bold bg-gradient-to-br ${unit.color} bg-clip-text text-transparent mb-2 countdown-number`}>
+                <div className="relative bg-white/90 backdrop-blur-sm rounded-2xl p-3 sm:p-6 border-2 border-white/60 shadow-xl hover:shadow-2xl transition-all duration-300">
+                  <div className={`text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-br ${unit.color} bg-clip-text text-transparent mb-2 countdown-number`}>
                     {unit.value}
                   </div>
-                  <div className="text-gray-600 text-sm font-medium uppercase tracking-wider">
+                  <div className="text-gray-600 text-xs sm:text-sm font-medium uppercase tracking-wider">
                     {unit.label}
                   </div>
                 </div>
@@ -123,19 +123,19 @@ export default function LandingPage() {
           </div>
 
           {/* Auto-Redirect Message */}
-          <div className="bg-gradient-to-r from-red-50 to-purple-50 rounded-xl p-4 border border-red-200">
-            <p className="text-red-600 text-sm font-medium">
+          <div className="bg-gradient-to-r from-red-50 to-purple-50 rounded-xl p-3 sm:p-4 border border-red-200">
+            <p className="text-red-600 text-xs sm:text-sm font-medium text-center">
               ⏰ Automatic redirect enabled • Website unlocks at zero ⏰
             </p>
           </div>
         </div>
 
         {/* Additional Info */}
-        <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/40">
-          <h3 className="text-xl font-medium text-gray-800 mb-4">
+        <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-4 sm:p-6 shadow-lg border border-white/40">
+          <h3 className="text-lg sm:text-xl font-medium text-gray-800 mb-3 sm:mb-4">
             🎭 What to Expect (Shhh... It's a Secret!)
           </h3>
-          <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-600">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-xs sm:text-sm text-gray-600">
             <div>🎵 Something magical with music...</div>
             <div>📖 A journey through time...</div>
             <div>🖼️ Hidden treasures revealed...</div>
@@ -143,49 +143,49 @@ export default function LandingPage() {
             <div>💝 Interactive surprises...</div>
             <div>🌟 A design that touches the soul...</div>
           </div>
-          <div className="mt-4 p-3 bg-gradient-to-r from-red-50 to-purple-50 rounded-lg border border-red-200">
-            <p className="text-red-600 text-xs font-medium">
+          <div className="mt-3 sm:mt-4 p-2 sm:p-3 bg-gradient-to-r from-red-50 to-purple-50 rounded-lg border border-red-200">
+            <p className="text-red-600 text-xs font-medium text-center">
               🔒 The full experience remains locked until the countdown reaches zero...
             </p>
           </div>
         </div>
 
         {/* Contact Information */}
-        <div className="bg-gradient-to-r from-red-50 to-purple-50 rounded-2xl p-6 shadow-lg border border-red-200">
-          <h3 className="text-xl font-medium text-gray-800 mb-4">
+        <div className="bg-gradient-to-r from-red-50 to-purple-50 rounded-2xl p-4 sm:p-6 shadow-lg border border-red-200">
+          <h3 className="text-lg sm:text-xl font-medium text-gray-800 mb-3 sm:mb-4">
             💬 Have Questions?
           </h3>
-          <p className="text-gray-600 mb-4">
+          <p className="text-sm sm:text-base text-gray-600 mb-4 text-center">
             For any queries about this special countdown or the upcoming tribute website, 
             feel free to message me on WhatsApp.
           </p>
-          <div className="flex items-center justify-center space-x-3">
-            <div className="text-2xl">📱</div>
+          <div className="flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-3">
+            <div className="text-xl sm:text-2xl">📱</div>
             <a 
               href="https://wa.me/923272667668" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="inline-flex items-center space-x-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
+              className="inline-flex flex-col sm:flex-row items-center space-y-1 sm:space-y-0 sm:space-x-2 bg-green-500 hover:bg-green-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl font-medium transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl text-center"
             >
-              <span>💬 WhatsApp</span>
-              <span className="text-sm">+92 327 266 7668</span>
+              <span className="text-sm sm:text-base">💬 WhatsApp</span>
+              <span className="text-xs sm:text-sm">+92 327 266 7668</span>
             </a>
           </div>
         </div>
 
         {/* Floating Background Elements */}
-        <div className="absolute top-20 left-20 w-32 h-32 bg-red-200 rounded-full opacity-20 animate-pulse floating-element" style={{"--delay": "0"}}></div>
-        <div className="absolute top-40 right-32 w-24 h-24 bg-pink-200 rounded-full opacity-25 animate-bounce floating-element" style={{"--delay": "1"}}></div>
-        <div className="absolute bottom-32 left-32 w-28 h-28 bg-purple-200 rounded-full opacity-20 animate-ping floating-element" style={{"--delay": "2"}}></div>
+        <div className="absolute top-10 sm:top-20 left-10 sm:left-20 w-20 sm:w-32 h-20 sm:h-32 bg-red-200 rounded-full opacity-20 animate-pulse floating-element" style={{"--delay": "0"}}></div>
+        <div className="absolute top-20 sm:top-40 right-16 sm:right-32 w-16 sm:w-24 h-16 sm:h-24 bg-pink-200 rounded-full opacity-25 animate-bounce floating-element" style={{"--delay": "1"}}></div>
+        <div className="absolute bottom-16 sm:bottom-32 left-16 sm:left-32 w-20 sm:w-28 h-20 sm:h-28 bg-purple-200 rounded-full opacity-20 animate-ping floating-element" style={{"--delay": "2"}}></div>
 
         {/* Redirecting Overlay */}
         {isRedirecting && (
-          <div className="fixed inset-0 bg-red-500/95 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="fixed inset-0 bg-red-500/95 backdrop-blur-sm flex items-center justify-center z-50 p-4">
             <div className="text-center text-white">
-              <div className="text-6xl mb-6 animate-spin">🔄</div>
-              <div className="text-3xl font-medium mb-4">Website Unlocked!</div>
-              <div className="text-xl opacity-90">Redirecting to the full tribute website...</div>
-              <div className="text-sm opacity-70 mt-2">Please wait while we prepare your experience</div>
+              <div className="text-4xl sm:text-6xl mb-4 sm:mb-6 animate-spin">🔄</div>
+              <div className="text-2xl sm:text-3xl font-medium mb-3 sm:mb-4">Website Unlocked!</div>
+              <div className="text-lg sm:text-xl opacity-90">Redirecting to the full tribute website...</div>
+              <div className="text-xs sm:text-sm opacity-70 mt-2">Please wait while we prepare your experience</div>
             </div>
           </div>
         )}
