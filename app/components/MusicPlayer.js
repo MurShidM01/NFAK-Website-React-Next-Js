@@ -7,9 +7,6 @@ export default function MusicPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [audioLoaded, setAudioLoaded] = useState(false);
   const audioRef = useRef(null);
 
   const tracks = [
@@ -79,148 +76,46 @@ export default function MusicPlayer() {
     }
   ];
 
-  const loadAudio = async (trackIndex) => {
-    if (!audioRef.current) return;
-    
-    setIsLoading(true);
-    setError(null);
-    
-    try {
-      const audioUrl = `/songs/${tracks[trackIndex].filename}`;
-      console.log('Loading audio:', audioUrl);
-      
-      // Test if the audio file is accessible
-      const response = await fetch(audioUrl, { method: 'HEAD' });
-      if (!response.ok) {
-        throw new Error(`Audio file not found: ${response.status} ${response.statusText}`);
-      }
-      
-      audioRef.current.src = audioUrl;
-      audioRef.current.load();
-      
-      // Wait for audio to be ready
-      await new Promise((resolve, reject) => {
-        const timeout = setTimeout(() => reject(new Error('Audio loading timeout')), 10000);
-        
-        const handleCanPlay = () => {
-          clearTimeout(timeout);
-          audioRef.current.removeEventListener('canplay', handleCanPlay);
-          audioRef.current.removeEventListener('error', handleError);
-          resolve();
-        };
-        
-        const handleError = (e) => {
-          clearTimeout(timeout);
-          audioRef.current.removeEventListener('canplay', handleCanPlay);
-          audioRef.current.removeEventListener('error', handleError);
-          reject(new Error(`Audio error: ${e.target.error?.message || 'Unknown error'}`));
-        };
-        
-        audioRef.current.addEventListener('canplay', handleCanPlay);
-        audioRef.current.addEventListener('error', handleError);
-      });
-      
-      setAudioLoaded(true);
-      setIsLoading(false);
-      
-    } catch (err) {
-      console.error('Audio loading error:', err);
-      setError(err.message);
-      setIsLoading(false);
-      setAudioLoaded(false);
-    }
-  };
-
   useEffect(() => {
     if (audioRef.current) {
-      // Remove old event listeners
-      const audio = audioRef.current;
+      audioRef.current.src = `/songs/${tracks[currentTrack].filename}`;
       
-      const handleLoadedMetadata = () => {
-        setDuration(audio.duration);
-        const minutes = Math.floor(audio.duration / 60);
-        const seconds = Math.floor(audio.duration % 60);
+      audioRef.current.addEventListener('loadedmetadata', () => {
+        setDuration(audioRef.current.duration);
+        // Update track duration in the tracks array
+        const minutes = Math.floor(audioRef.current.duration / 60);
+        const seconds = Math.floor(audioRef.current.duration % 60);
         tracks[currentTrack].duration = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-      };
+      });
 
-      const handleTimeUpdate = () => {
-        setCurrentTime(audio.currentTime);
-      };
+      audioRef.current.addEventListener('timeupdate', () => {
+        setCurrentTime(audioRef.current.currentTime);
+      });
 
-      const handleEnded = () => {
+      audioRef.current.addEventListener('ended', () => {
         setIsPlaying(false);
         nextTrack();
-      };
-
-      const handleError = (e) => {
-        console.error('Audio playback error:', e);
-        setError(`Playback error: ${e.target.error?.message || 'Unknown error'}`);
-        setIsPlaying(false);
-      };
-
-      audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-      audio.addEventListener('timeupdate', handleTimeUpdate);
-      audio.addEventListener('ended', handleEnded);
-      audio.addEventListener('error', handleError);
-
-      // Load the new track
-      loadAudio(currentTrack);
-
-      return () => {
-        audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
-        audio.removeEventListener('timeupdate', handleTimeUpdate);
-        audio.removeEventListener('ended', handleEnded);
-        audio.removeEventListener('error', handleError);
-      };
+      });
     }
   }, [currentTrack]);
 
-  const togglePlay = async () => {
-    if (!audioRef.current || !audioLoaded) {
-      console.log('Audio not ready, attempting to load...');
-      await loadAudio(currentTrack);
-      return;
+  const togglePlay = () => {
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
     }
-
-    try {
-      if (isPlaying) {
-        audioRef.current.pause();
-        setIsPlaying(false);
-      } else {
-        // Check if audio is ready
-        if (audioRef.current.readyState < 2) {
-          console.log('Audio not ready, waiting...');
-          setIsLoading(true);
-          await new Promise((resolve) => {
-            const handleCanPlay = () => {
-              audioRef.current.removeEventListener('canplay', handleCanPlay);
-              resolve();
-            };
-            audioRef.current.addEventListener('canplay', handleCanPlay);
-          });
-          setIsLoading(false);
-        }
-        
-        await audioRef.current.play();
-        setIsPlaying(true);
-      }
-    } catch (err) {
-      console.error('Playback error:', err);
-      setError(`Playback failed: ${err.message}`);
-      setIsPlaying(false);
-    }
+    setIsPlaying(!isPlaying);
   };
 
   const nextTrack = () => {
     setCurrentTrack((prev) => (prev + 1) % tracks.length);
     setIsPlaying(false);
-    setAudioLoaded(false);
   };
 
   const prevTrack = () => {
     setCurrentTrack((prev) => (prev - 1 + tracks.length) % tracks.length);
     setIsPlaying(false);
-    setAudioLoaded(false);
   };
 
   const formatTime = (time) => {
@@ -230,8 +125,6 @@ export default function MusicPlayer() {
   };
 
   const handleSeek = (e) => {
-    if (!audioRef.current || !audioLoaded) return;
-    
     const rect = e.currentTarget.getBoundingClientRect();
     const percent = (e.clientX - rect.left) / rect.width;
     const seekTime = percent * duration;
@@ -242,12 +135,6 @@ export default function MusicPlayer() {
   const handleTrackChange = (index) => {
     setCurrentTrack(index);
     setIsPlaying(false);
-    setAudioLoaded(false);
-  };
-
-  const retryLoad = () => {
-    setError(null);
-    loadAudio(currentTrack);
   };
 
   return (
@@ -259,34 +146,7 @@ export default function MusicPlayer() {
       </div>
 
       {/* Hidden Audio Element */}
-      <audio ref={audioRef} preload="metadata" crossOrigin="anonymous" />
-
-      {/* Error Display */}
-      {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-          <div className="flex items-center justify-between">
-            <div className="text-red-800 text-sm">
-              <strong>Error:</strong> {error}
-            </div>
-            <button 
-              onClick={retryLoad}
-              className="px-3 py-1 bg-red-100 text-red-700 rounded text-sm hover:bg-red-200"
-            >
-              Retry
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Loading State */}
-      {isLoading && (
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-          <div className="text-blue-800 text-sm text-center">
-            <div className="animate-spin inline-block w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full mr-2"></div>
-            Loading audio...
-          </div>
-        </div>
-      )}
+      <audio ref={audioRef} preload="metadata" />
 
       {/* Current Track Display */}
       <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-lg p-4 mb-6">
@@ -300,19 +160,14 @@ export default function MusicPlayer() {
           <p className="text-amber-600 font-medium">
             {formatTime(currentTime)} / {formatTime(duration)}
           </p>
-          {!audioLoaded && !isLoading && !error && (
-            <p className="text-orange-600 text-xs mt-1">Click play to load audio</p>
-          )}
         </div>
       </div>
 
       {/* Progress Bar */}
       <div className="mb-6">
         <div 
-          className={`w-full bg-gray-200 rounded-full h-2 ${
-            audioLoaded ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
-          }`}
-          onClick={audioLoaded ? handleSeek : undefined}
+          className="w-full bg-gray-200 rounded-full h-2 cursor-pointer"
+          onClick={handleSeek}
         >
           <div 
             className="bg-amber-600 h-2 rounded-full transition-all duration-100"
@@ -325,51 +180,26 @@ export default function MusicPlayer() {
       <div className="flex justify-center items-center space-x-4 mb-6">
         <button 
           onClick={prevTrack}
-          disabled={isLoading}
-          className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
-            isLoading 
-              ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
-              : 'bg-gray-100 hover:bg-gray-200'
-          }`}
+          className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
         >
           ⏮️
         </button>
         
         <button 
           onClick={togglePlay}
-          disabled={isLoading}
-          className={`w-16 h-16 rounded-full flex items-center justify-center transition-colors ${
-            isLoading 
-              ? 'bg-gray-400 cursor-not-allowed' 
-              : 'bg-amber-600 hover:bg-amber-700'
-          }`}
+          className="w-16 h-16 bg-amber-600 rounded-full flex items-center justify-center hover:bg-amber-700 transition-colors"
         >
-          <span className={`text-2xl ${
-            isLoading ? 'text-gray-600' : 'text-white'
-          }`}>
-            {isLoading ? '⏳' : isPlaying ? '⏸️' : '▶️'}
+          <span className="text-white text-2xl">
+            {isPlaying ? '⏸️' : '▶️'}
           </span>
         </button>
         
         <button 
           onClick={nextTrack}
-          disabled={isLoading}
-          className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
-            isLoading 
-              ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
-              : 'bg-gray-100 hover:bg-gray-200'
-          }`}
+          className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
         >
           ⏭️
         </button>
-      </div>
-
-      {/* Debug Info (remove in production) */}
-      <div className="bg-gray-50 rounded-lg p-3 mb-4 text-xs text-gray-600">
-        <div>Audio Loaded: {audioLoaded ? 'Yes' : 'No'}</div>
-        <div>Current Track: {currentTrack + 1}/{tracks.length}</div>
-        <div>Ready State: {audioRef.current?.readyState || 'N/A'}</div>
-        <div>Network State: {audioRef.current?.networkState || 'N/A'}</div>
       </div>
 
       {/* Track List */}
