@@ -323,6 +323,19 @@ function HomeContent() {
                 <div>🎵 Maikadah Bhi Apna Hai</div>
                 <div>🎵 Jis Dil Wich Sajnan Vas Jaiye</div>
               </div>
+              
+              {/* Audio Test Link */}
+              <div className="mt-6 pt-4 border-t border-amber-200">
+                <a 
+                  href="/audio-test" 
+                  className="inline-flex items-center px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors text-sm"
+                >
+                  🔧 Audio Troubleshooting
+                </a>
+                <p className="text-xs text-amber-700 mt-2">
+                  Having issues? Test audio files here
+                </p>
+              </div>
             </div>
             <MusicPlayer />
           </div>

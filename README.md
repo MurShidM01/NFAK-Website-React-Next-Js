@@ -99,8 +99,13 @@ A sophisticated, modern tribute website honoring the legendary **Ustad Nusrat Fa
 
 1. **Clone the Repository**
    ```bash
+<<<<<<< HEAD
    git clone https://github.com/MurShidM01/NFAK-Website-React-Next-Js.git
    cd NFAK-Website-React-Next-Js
+=======
+   git clone https://github.com/yourusername/ustad_nfak.git
+   cd ustad_nfak
+>>>>>>> 2b374a4 (Updated)
    ```
 
 2. **Install Dependencies**
@@ -334,9 +339,15 @@ Copyright (c) 2025 Ustad Nusrat Fateh Ali Khan Tribute Website
 - **Community**: Engage with fellow developers and fans
 
 ### 📧 **Direct Contact**
+<<<<<<< HEAD
 - **Repository Issues**: [GitHub Issues](https://github.com/MurShidM01/NFAK-Website-React-Next-Js/issues)
 - **Feature Requests**: [GitHub Discussions](https://github.com/MurShidM01/NFAK-Website-React-Next-Js/discussions)
 - **Contributions**: [Pull Requests](https://github.com/MurShidM01/NFAK-Website-React-Next-Js/pulls)
+=======
+- **Repository Issues**: [GitHub Issues](https://github.com/yourusername/ustad_nfak/issues)
+- **Feature Requests**: [GitHub Discussions](https://github.com/yourusername/ustad_nfak/discussions)
+- **Contributions**: [Pull Requests](https://github.com/yourusername/ustad_nfak/pulls)
+>>>>>>> 2b374a4 (Updated)
 
 ---
 
