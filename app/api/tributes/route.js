@@ -1,43 +1,13 @@
 import { NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
-
-const tributesFile = path.join(process.cwd(), 'data', 'tributes.json');
-
-// Ensure data directory exists
-async function ensureDataDir() {
-  const dataDir = path.dirname(tributesFile);
-  try {
-    await fs.access(dataDir);
-  } catch {
-    await fs.mkdir(dataDir, { recursive: true });
-  }
-}
-
-// Read tributes from JSON file
-async function readTributes() {
-  try {
-    await ensureDataDir();
-    const data = await fs.readFile(tributesFile, 'utf8');
-    return JSON.parse(data);
-  } catch (error) {
-    // If file doesn't exist or is empty, return empty array
-    return [];
-  }
-}
-
-// Write tributes to JSON file
-async function writeTributes(tributes) {
-  await ensureDataDir();
-  await fs.writeFile(tributesFile, JSON.stringify(tributes, null, 2));
-}
+import { kv } from '@vercel/kv';
 
 // GET - Retrieve all tributes
 export async function GET() {
   try {
-    const tributes = await readTributes();
+    const tributes = await kv.get('tributes') || [];
     return NextResponse.json({ tributes });
   } catch (error) {
+    console.error('Error fetching tributes:', error);
     return NextResponse.json(
       { error: 'Failed to fetch tributes' },
       { status: 500 }
@@ -72,14 +42,14 @@ export async function POST(request) {
       approved: true // Auto-approve for now, can be changed to false for moderation
     };
 
-    // Read existing tributes
-    const tributes = await readTributes();
+    // Get existing tributes from KV
+    const tributes = await kv.get('tributes') || [];
     
-    // Add new tribute
-    tributes.unshift(newTribute); // Add to beginning of array
+    // Add new tribute to beginning of array
+    tributes.unshift(newTribute);
     
-    // Write back to file
-    await writeTributes(tributes);
+    // Store back to KV
+    await kv.set('tributes', tributes);
 
     return NextResponse.json({
       success: true,
