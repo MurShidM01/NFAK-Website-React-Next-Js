@@ -14,6 +14,7 @@ import Navigation from "./components/Navigation";
 import Statistics from "./components/Statistics";
 import LandingPage from "./components/LandingPage";
 import TributesDisplay from "./components/TributesDisplay";
+import AdminPanel from "./components/AdminPanel";
 
 function HomeContent() {
   const searchParams = useSearchParams();
@@ -473,6 +474,19 @@ function HomeContent() {
             Ustad Nusrat Fateh Ali Khan's divine voice and spiritual music.
           </p>
           <TributesDisplay />
+        </div>
+      </section>
+
+      {/* Admin Panel Section */}
+      <section id="admin" className="py-12 sm:py-16 px-4 sm:px-6 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <h3 className="text-xl sm:text-2xl font-light text-gray-800 text-center mb-8 sm:mb-12">
+            Admin Panel
+          </h3>
+          <p className="text-center text-gray-600 mb-8 max-w-2xl mx-auto">
+            Manage tributes, edit content, and maintain the community. This panel allows you to add, edit, and delete tributes.
+          </p>
+          <AdminPanel />
         </div>
       </section>
 

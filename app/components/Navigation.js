@@ -19,7 +19,8 @@ export default function Navigation() {
     { id: 'quotes', label: 'Quotes', icon: '💭' },
     { id: 'legacy', label: 'Legacy', icon: '👑' },
     { id: 'contact', label: 'Contact', icon: '💝' },
-    { id: 'tributes', label: 'Tributes', icon: '💌' }
+    { id: 'tributes', label: 'Tributes', icon: '💌' },
+    { id: 'admin', label: 'Admin', icon: '⚙️' }
   ];
 
   useEffect(() => {
