@@ -12,7 +12,8 @@
     "@vercel/kv": "^3.0.0",
     "next": "15.4.6",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "redis": "^5.8.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
