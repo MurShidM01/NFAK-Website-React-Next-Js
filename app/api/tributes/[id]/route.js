@@ -1,16 +1,19 @@
 import { NextResponse } from 'next/server';
 import { createClient } from 'redis';
 
+// Create Redis client
+const redis = createClient({
+  url: process.env.REDIS_URL_REDIS_URL
+});
+
+// Connect to Redis
+redis.connect().catch(console.error);
+
 // PUT - Update a tribute
 export async function PUT(request, { params }) {
   try {
     const { id } = params;
     const body = await request.json();
-    
-    // Connect to Redis
-    const redis = await createClient({
-      url: process.env.REDIS_URL_REDIS_URL
-    }).connect();
     
     // Get existing tributes
     const tributesData = await redis.get('tributes');
@@ -19,7 +22,6 @@ export async function PUT(request, { params }) {
     // Find and update the tribute
     const tributeIndex = tributes.findIndex(t => t.id === id);
     if (tributeIndex === -1) {
-      await redis.disconnect();
       return NextResponse.json(
         { error: 'Tribute not found' },
         { status: 404 }
@@ -36,9 +38,6 @@ export async function PUT(request, { params }) {
     
     // Store back to Redis
     await redis.set('tributes', JSON.stringify(tributes));
-    
-    // Disconnect from Redis
-    await redis.disconnect();
     
     return NextResponse.json({
       success: true,
@@ -59,11 +58,6 @@ export async function DELETE(request, { params }) {
   try {
     const { id } = params;
     
-    // Connect to Redis
-    const redis = await createClient({
-      url: process.env.REDIS_URL_REDIS_URL
-    }).connect();
-    
     // Get existing tributes
     const tributesData = await redis.get('tributes');
     const tributes = tributesData ? JSON.parse(tributesData) : [];
@@ -72,7 +66,6 @@ export async function DELETE(request, { params }) {
     const updatedTributes = tributes.filter(t => t.id !== id);
     
     if (updatedTributes.length === tributes.length) {
-      await redis.disconnect();
       return NextResponse.json(
         { error: 'Tribute not found' },
         { status: 404 }
@@ -81,9 +74,6 @@ export async function DELETE(request, { params }) {
     
     // Store back to Redis
     await redis.set('tributes', JSON.stringify(updatedTributes));
-    
-    // Disconnect from Redis
-    await redis.disconnect();
     
     return NextResponse.json({
       success: true,
