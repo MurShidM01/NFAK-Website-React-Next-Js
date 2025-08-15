@@ -21,7 +21,7 @@ function HomeContent() {
   
   // TEMPORARY: For development, always show full website
   // Remove this line when you want to restore the countdown functionality
-  const forceUnlock = true;
+  const forceUnlock = false;
 
   // If not unlocked, show only the landing page
   if (!isUnlocked && !forceUnlock) {
