@@ -14,7 +14,7 @@ import Navigation from "./components/Navigation";
 import Statistics from "./components/Statistics";
 import LandingPage from "./components/LandingPage";
 import TributesDisplay from "./components/TributesDisplay";
-import AdminPanel from "./components/AdminPanel";
+
 
 function HomeContent() {
   const searchParams = useSearchParams();
@@ -51,11 +51,11 @@ function HomeContent() {
 
 
       {/* Countdown Timers */}
-      <section id="countdown" className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 relative overflow-hidden">
+      <section id="countdown" className="py-8 sm:py-12 lg:py-16 xl:py-20 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 relative overflow-hidden">
         {/* Floating Background Elements */}
-        <div className="absolute top-10 left-10 w-16 sm:w-24 lg:w-32 h-16 sm:h-24 lg:h-32 bg-amber-200 rounded-full opacity-10 animate-pulse"></div>
-        <div className="absolute top-20 right-20 w-12 sm:w-20 lg:w-24 h-12 sm:h-20 lg:h-24 bg-orange-200 rounded-full opacity-15 animate-bounce"></div>
-        <div className="absolute bottom-20 left-20 w-14 sm:w-24 lg:w-28 h-14 sm:h-24 lg:h-28 bg-yellow-200 rounded-full opacity-10 animate-ping"></div>
+        <div className="absolute top-4 sm:top-10 left-4 sm:left-10 w-8 sm:w-16 lg:w-24 xl:w-32 h-8 sm:h-16 lg:h-24 xl:h-32 bg-amber-200 rounded-full opacity-10 animate-pulse"></div>
+        <div className="absolute top-8 sm:top-20 right-4 sm:right-20 w-6 sm:w-12 lg:w-20 xl:w-24 h-6 sm:h-12 lg:h-20 xl:h-24 bg-orange-200 rounded-full opacity-15 animate-bounce"></div>
+        <div className="absolute bottom-8 sm:bottom-20 left-4 sm:left-20 w-7 sm:w-14 lg:w-24 xl:w-28 h-7 sm:h-14 lg:h-24 xl:h-28 bg-yellow-200 rounded-full opacity-10 animate-ping"></div>
         
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center mb-8 sm:mb-12 lg:mb-16">
@@ -76,7 +76,7 @@ function HomeContent() {
             </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 xl:gap-12">
             <div className="transform hover:scale-105 transition-transform duration-500">
               <CountdownTimer
                 targetDate="08-16"
@@ -477,18 +477,7 @@ function HomeContent() {
         </div>
       </section>
 
-      {/* Admin Panel Section */}
-      <section id="admin" className="py-12 sm:py-16 px-4 sm:px-6 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <h3 className="text-xl sm:text-2xl font-light text-gray-800 text-center mb-8 sm:mb-12">
-            Admin Panel
-          </h3>
-          <p className="text-center text-gray-600 mb-8 max-w-2xl mx-auto">
-            Manage tributes, edit content, and maintain the community. This panel allows you to add, edit, and delete tributes.
-          </p>
-          <AdminPanel />
-        </div>
-      </section>
+
 
       {/* Eternal Tribute */}
       <section className="py-12 sm:py-16 px-4 sm:px-6 bg-gradient-to-b from-white to-gray-50">

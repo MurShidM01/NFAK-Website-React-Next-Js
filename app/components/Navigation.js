@@ -19,8 +19,7 @@ export default function Navigation() {
     { id: 'quotes', label: 'Quotes', icon: '💭' },
     { id: 'legacy', label: 'Legacy', icon: '👑' },
     { id: 'contact', label: 'Contact', icon: '💝' },
-    { id: 'tributes', label: 'Tributes', icon: '💌' },
-    { id: 'admin', label: 'Admin', icon: '⚙️' }
+    { id: 'tributes', label: 'Tributes', icon: '💌' }
   ];
 
   useEffect(() => {
@@ -65,20 +64,20 @@ export default function Navigation() {
       <div className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-300 ${
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
       }`}>
-        <div className="bg-white/90 backdrop-blur-sm rounded-full shadow-lg border border-gray-200 px-4 py-2">
-          <div className="flex items-center space-x-1">
+        <div className="bg-white/90 backdrop-blur-sm rounded-full shadow-lg border border-gray-200 px-2 sm:px-4 py-2 max-w-[90vw] sm:max-w-none">
+          <div className="flex items-center space-x-1 overflow-x-auto scrollbar-hide">
             {sections.map((section) => (
               <button
                 key={section.id}
                 onClick={() => scrollToSection(section.id)}
-                className={`p-2 rounded-full transition-all duration-200 hover:bg-amber-100 hover:scale-110 ${
+                className={`p-2 rounded-full transition-all duration-200 hover:bg-amber-100 hover:scale-110 flex-shrink-0 ${
                   activeSection === section.id
                     ? 'bg-amber-200 text-amber-800 scale-110'
                     : 'text-gray-600 hover:text-amber-600'
                 }`}
                 title={section.label}
               >
-                <span className="text-sm">{section.icon}</span>
+                <span className="text-xs sm:text-sm">{section.icon}</span>
               </button>
             ))}
           </div>
@@ -88,15 +87,13 @@ export default function Navigation() {
       {/* Scroll to Top Button */}
       <button
         onClick={scrollToTop}
-        className={`fixed bottom-6 right-6 z-50 w-12 h-12 bg-amber-600 text-white rounded-full shadow-lg hover:bg-amber-700 transition-all duration-300 ${
+        className={`fixed bottom-4 sm:bottom-6 right-4 sm:right-6 z-50 w-10 h-10 sm:w-12 sm:h-12 bg-amber-600 text-white rounded-full shadow-lg hover:bg-amber-700 transition-all duration-300 ${
           isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-0 pointer-events-none'
         }`}
         title="Scroll to Top"
       >
-        <span className="text-lg">⬆️</span>
+        <span className="text-base sm:text-lg">⬆️</span>
       </button>
-
-
     </>
   );
 }
